@@ -21,9 +21,9 @@ public class GameServices {
 		this.game.setId(getNewId());
 		this.game.setGame(getGameName());
 		this.game.setPoints(gameDTO.getPoints());		
-		this.game.setMaxPointSeason(maxPointSeason());
+		this.game.setMaxPointSeason(maxPointSeason(gameDTO.getPoints()));
 		this.game.setMaxBreakPointSeason(maxBreakPointSeason);
-		this.game.setMinPointSeason(minPointSeason());
+		this.game.setMinPointSeason(minPointSeason(gameDTO.getPoints()));
 		this.game.setMinBreakPointSeason(minBreakPointSeason);
 		
 		db.save(game);				
@@ -47,25 +47,25 @@ public class GameServices {
 		return gamesDtos;	
 	}
 	
-	private Integer maxPointSeason () {		
+	private Integer maxPointSeason (Integer points) {		
 		List<Game> games = db.findAll();
-		Integer maxPoint = 0;
+		Integer maxPoint = points;
 				
-		for (Game game : games) {
-			maxBreakPointSeason = maxPoint < game.getPoints()?true: false; 
-			maxPoint = maxPoint < game.getPoints()?game.getPoints(): maxPoint;			
+		for (Game game : games) {			
+			maxPoint = maxPoint < game.getPoints()?game.getPoints(): maxPoint;
+			maxBreakPointSeason = points < maxPoint?false:true;
 		}
 		
 		return maxPoint;
 	}
 	
-	private Integer minPointSeason () {		
+	private Integer minPointSeason (Integer points) {		
 		List<Game> games = db.findAll();
-		Integer minPoint = 1000;
+		Integer minPoint = points;
 						
-		for (Game game : games) {
-			minBreakPointSeason = minPoint > game.getPoints()?true:false;
-			minPoint = minPoint > game.getPoints()?game.getPoints() : minPoint;			
+		for (Game game : games) {			
+			minPoint = minPoint > game.getPoints()?game.getPoints() : minPoint;
+			minBreakPointSeason = points > minPoint?false:true;
 		}			
 		
 		return minPoint;

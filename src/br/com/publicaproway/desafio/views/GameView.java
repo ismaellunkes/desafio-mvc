@@ -1,7 +1,6 @@
 package br.com.publicaproway.desafio.views;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,7 +24,7 @@ public class GameView {
 		switch (key) {
 		case "A":
 			
-			autmomaticTest();			
+			automaticTest();			
 			break;
 			
 		case "M":
@@ -71,7 +70,7 @@ public class GameView {
 		
 	}
 	
-	private void autmomaticTest() {		
+	private void automaticTest() {		
 		
 		TestData.add("12");		
 		TestData.add("25");		
