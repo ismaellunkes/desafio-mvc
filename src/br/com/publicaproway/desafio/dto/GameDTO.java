@@ -3,16 +3,25 @@ package br.com.publicaproway.desafio.dto;
 public class GameDTO {
 		
 	private String game;
-	private Integer points;
+	private Integer points;	
+	private Integer maxPointSeason;
+	private Integer minPointSeason;
+	private boolean maxBreakPointSeason;
+	private boolean minBreakPointSeason;
 
 	public GameDTO() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	public GameDTO(String game, Integer points) {
+
+	public GameDTO(String game, Integer points, Integer maxPointSeason, Integer minPointSeason,
+			boolean maxBreakPointSeason, boolean minBreakPointSeason) {
 		super();
 		this.game = game;
 		this.points = points;
+		this.maxPointSeason = maxPointSeason;
+		this.minPointSeason = minPointSeason;
+		this.maxBreakPointSeason = maxBreakPointSeason;
+		this.minBreakPointSeason = minBreakPointSeason;
 	}
 
 	/**
@@ -43,6 +52,60 @@ public class GameDTO {
 		this.points = points;
 	}
 
-	
+	/**
+	 * @return the maxPointSeason
+	 */
+	public Integer getMaxPointSeason() {
+		return maxPointSeason;
+	}
 
+	/**
+	 * @param maxPointSeason the maxPointSeason to set
+	 */
+	public void setMaxPointSeason(Integer maxPointSeason) {
+		this.maxPointSeason = maxPointSeason;
+	}
+
+	/**
+	 * @return the minPointSeason
+	 */
+	public Integer getMinPointSeason() {
+		return minPointSeason;
+	}
+
+	/**
+	 * @param minPointSeason the minPointSeason to set
+	 */
+	public void setMinPointSeason(Integer minPointSeason) {
+		this.minPointSeason = minPointSeason;
+	}
+
+	/**
+	 * @return the maxBreakPointSeason
+	 */
+	public boolean isMaxBreakPointSeason() {
+		return maxBreakPointSeason;
+	}
+
+	/**
+	 * @param maxBreakPointSeason the maxBreakPointSeason to set
+	 */
+	public void setMaxBreakPointSeason(boolean maxBreakPointSeason) {
+		this.maxBreakPointSeason = maxBreakPointSeason;
+	}
+
+	/**
+	 * @return the minBreakPointSeason
+	 */
+	public boolean isMinBreakPointSeason() {
+		return minBreakPointSeason;
+	}
+
+	/**
+	 * @param minBreakPointSeason the minBreakPointSeason to set
+	 */
+	public void setMinBreakPointSeason(boolean minBreakPointSeason) {
+		this.minBreakPointSeason = minBreakPointSeason;
+	}
+		
 }
