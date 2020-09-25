@@ -11,6 +11,7 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import br.com.publicaproway.desafio.controllers.GamesController;
 import br.com.publicaproway.desafio.dto.GameDTO;
@@ -121,7 +122,33 @@ public class GameView {
 		System.out.println(" "  );
 		System.out.println("O recorde minimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)"  );
 		
-			
+		openFrame();	
+	}
+	
+	
+	
+private void openFrame() {
+					
+		JFrame frame = new JFrame();		
+		frame.setSize(600, 400);		
+		frame.setLocationRelativeTo(null);
+		frame.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);	
+		
+		JPanel jPanel = new JPanel();
+		jPanel.setSize(100, 50);
+				
+		JTextField jTextField = new JTextField();
+		jTextField.setSize(300,50);
+				
+		Point point = new Point();
+		point.x = frame.getX()/4;
+		point.y = frame.getY()/4;
+		jTextField.setLocation(point);
+		 
+		frame.add(jTextField);
+		frame.add(jPanel);	
+		frame.setVisible(true);
+		
 	}
 		
 }
