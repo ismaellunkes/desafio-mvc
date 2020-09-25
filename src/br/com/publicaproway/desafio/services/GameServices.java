@@ -47,6 +47,34 @@ public class GameServices {
 		return gamesDtos;	
 	}
 	
+	public Integer countMaxBreakPointSeason() {
+		List<Game> games = db.findAll();
+		Integer count = 0;
+						
+		for (Game game : games) {			
+			
+			if (game.isMaxBreakPointSeason()) {
+				count++;
+			}			
+		}					
+		
+		return count;
+	}
+	
+	public Integer countMinBreakPointSeason() {
+		List<Game> games = db.findAll();
+		Integer count = 0;
+						
+		for (Game game : games) {			
+			
+			if (game.isMinBreakPointSeason()) {
+				count++;
+			}			
+		}					
+		
+		return count;
+	}
+	
 	private Integer maxPointSeason (Integer points) {		
 		List<Game> games = db.findAll();
 		Integer maxPoint = points;

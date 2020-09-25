@@ -1,8 +1,16 @@
 package br.com.publicaproway.desafio.views;
 
+import java.awt.Button;
+import java.awt.Dialog.ModalExclusionType;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import br.com.publicaproway.desafio.controllers.GamesController;
 import br.com.publicaproway.desafio.dto.GameDTO;
@@ -19,7 +27,7 @@ public class GameView {
 		
 		System.out.println("***** TEST: AUTOMATIC(A)  OR MANUALLY (M)? *****");
 		System.out.println("");	
-		key = tec.next();
+		key = "A"; //tec.next();
 		
 		switch (key) {
 		case "A":
@@ -67,6 +75,12 @@ public class GameView {
 			
 		}	
 		
+		System.out.println(" "  );
+		System.out.println(" "  );
+		System.out.println("O recorde máximo foi quebrado por "+gamesController.countMaxBreakPointSeason()+" vez(es)"  );
+		System.out.println(" "  );
+		System.out.println("O recorde minimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)"  );
+		
 		
 	}
 	
@@ -101,6 +115,13 @@ public class GameView {
 			
 		}	
 		
+		System.out.println(" "  );
+		System.out.println(" "  );
+		System.out.println("O recorde máximo foi quebrado por "+gamesController.countMaxBreakPointSeason()+" vez(es)"  );
+		System.out.println(" "  );
+		System.out.println("O recorde minimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)"  );
+		
+			
 	}
-
+		
 }

@@ -23,5 +23,13 @@ public class GamesController {
 	public List<GameDTO> findAll() {
 		return gameServices.findAll();				
 	}
+	
+	public Integer countMaxBreakPointSeason() {
+		return gameServices.countMaxBreakPointSeason();				
+	}
+	
+	public Integer countMinBreakPointSeason() {
+		return gameServices.countMinBreakPointSeason();				
+	}
 		
 }
