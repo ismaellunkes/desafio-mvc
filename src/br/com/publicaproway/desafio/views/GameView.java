@@ -3,15 +3,26 @@ package br.com.publicaproway.desafio.views;
 import java.awt.Button;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+
+import com.sun.jdi.IntegerValue;
 
 import br.com.publicaproway.desafio.controllers.GamesController;
 import br.com.publicaproway.desafio.dto.GameDTO;
@@ -88,14 +99,14 @@ public class GameView {
 	private void automaticTest() {		
 		
 		TestData.add("12");		
-		TestData.add("25");		
+		TestData.add("23");		
 		TestData.add("86");		
 		TestData.add("1");
 		TestData.add("24");
 		TestData.add("15");
-		TestData.add("32");
+		TestData.add("7");
 		TestData.add("17");
-		TestData.add("43");		
+		TestData.add("95");		
 		
 		for (int i = 0; i < TestData.size(); i++) {
 			gameDTO = new GameDTO();
@@ -103,7 +114,7 @@ public class GameView {
 			gamesController.addGame(gameDTO);		
 		}
 		
-		System.out.println("-------------- JOGOS CADASTRADOS --------");
+		System.out.println("          -------------- JOGOS CADASTRADOS --------      ");
 		System.out.println("");
 		System.out.println(" GAME     PONTOS     MAX_POINT_SEASON     MIX_POINT_SEASON     IS_MAX_RECORD_BREAK     IS_MIN_RECORD_BREAK");
 		List<GameDTO> gameDTOs = gamesController.findAll();
@@ -127,25 +138,53 @@ public class GameView {
 	
 	
 	
-private void openFrame() {
-					
+		private void openFrame() {
+			
+											
 		JFrame frame = new JFrame();		
 		frame.setSize(600, 400);		
 		frame.setLocationRelativeTo(null);
-		frame.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);	
+		//frame.setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);	
+		
+		//Point point = new Point();
+		//point.x = frame.getX()/4;
+		//point.y = frame.getY()/4;
 		
 		JPanel jPanel = new JPanel();
 		jPanel.setSize(100, 50);
 				
-		JTextField jTextField = new JTextField();
-		jTextField.setSize(300,50);
+		JLabel jLabelGame = new JLabel("JOGO:");		
+		jLabelGame.setBounds(new Rectangle(150, 30, 60, 80));
+		jLabelGame.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JTextField jTextFieldGame = new JTextField();
+		jTextFieldGame.setBounds(jLabelGame.getX(), jLabelGame.getY()+50, 60, 60);
+		//jTextFieldPoints.setSize(300,50);
+		
+		JLabel jLabelPoints = new JLabel("PONTOS:");		
+		jLabelPoints.setBounds(new Rectangle(jLabelGame.getX()+200, jLabelGame.getY(), 60, 80));
+		jLabelPoints.setHorizontalAlignment(SwingConstants.CENTER);
 				
-		Point point = new Point();
-		point.x = frame.getX()/4;
-		point.y = frame.getY()/4;
-		jTextField.setLocation(point);
+		JTextField jTextFieldPoints = new JTextField();
+		jTextFieldPoints.setBounds(jLabelPoints.getX(), jLabelPoints.getY()+50, 60, 60);
+
+		//TableModel tableModel;
+		//tableModel.setValueAt("Teste", 1, 1);
+		
+		//TableColumnModel columnModel;
+		//columnModel.addColumn("");
+		
+		//TableColumn column;
+		//column.set
+		
+		//JTable jTable = new JTable();
+		//jTable.setColumnModel(tableModel);
+		//jPanel.add(jTable);
 		 
-		frame.add(jTextField);
+		frame.add(jLabelGame);
+		frame.add(jTextFieldGame);
+		frame.add(jLabelPoints);
+		frame.add(jTextFieldPoints);
 		frame.add(jPanel);	
 		frame.setVisible(true);
 		
