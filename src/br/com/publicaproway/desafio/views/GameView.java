@@ -59,7 +59,79 @@ public class GameView {
 		}							
 	}
 	
+	private void consoleCreate() {
+		
+		List<String> tableHead = new ArrayList<String>();
+		tableHead.add("GAME");
+		tableHead.add("POINTS");
+		tableHead.add("MAX_POINT_SEASON");
+		tableHead.add("MIX_POINT_SEASON");
+		tableHead.add("IS_MAX_RECORD_BREAK");
+		tableHead.add("IS_MIN_RECORD_BREAK");
+		
+		for (int i = 0; i < tableHead.size(); i++) {
+			
+			System.out.print(tableHead.get(i));			
+			
+			for (int j = 0; j < 5; j++) {
+				System.out.print(" ");
+			}					
+		}		
+		
+		List<GameDTO> gameDTOs = gamesController.findAll();
+		for (GameDTO gameDTO : gameDTOs) {
+			
+			System.out.println("");
+			
+			int margemLeft00 = tableHead.get(0).length()+5;	
+			System.out.print(gameDTO.getGame());
+			for (int i = 0; i < margemLeft00; i++) {
+				System.out.print(" ");
+			}
+			
+			int margemLeft01 = tableHead.get(0).length()+5;			
+			System.out.print(gameDTO.getPoints());
+			for (int i = 0; i < margemLeft01; i++) {
+				System.out.print(" ");
+			}
+			
+			int margemLeft02 = tableHead.get(0).length()+5+tableHead.get(1).length()+5;	
+			System.out.print(gameDTO.getMaxPointSeason());					
+			for (int i = 0; i < margemLeft02; i++) {
+				System.out.print(" ");
+			}
+			
+			System.out.print(gameDTO.getMinPointSeason()==1000?" - ":gameDTO.getMinPointSeason().toString());
+			for (int i = 0; i < 22; i++) {
+				System.out.print(" ");
+			}
+			
+			System.out.print(gameDTO.isMaxBreakPointSeason()==true?"YES":"NO");
+			for (int i = 0; i < 22; i++) {
+				System.out.print(" ");
+			}								
+			
+			System.out.print(gameDTO.isMinBreakPointSeason()==true?"YES":"NO");
+			
+			
+			
+			
+			/*System.out.println(gameDTO.getGame()+"    "+ gameDTO.getPoints()+"          "+gameDTO.getMaxPointSeason()+"                     "+
+					(gameDTO.getMinPointSeason()==1000?" - ":gameDTO.getMinPointSeason().toString())+"                   "+(gameDTO.isMaxBreakPointSeason()==true?"YES":"NO")+"                 "
+					+(gameDTO.isMinBreakPointSeason()==true?"YES":"NO"));*/
+			
+		}
+				
+		System.out.println(" "  );
+		System.out.println(" "  );
+		System.out.println("O recorde máximo foi quebrado por "+gamesController.countMaxBreakPointSeason()+" vez(es)"  );
+		System.out.println(" "  );
+		System.out.println("O recorde minimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)"  );
+	}
+	
 	private void manuallyTest() {
+		
+		consoleCreate();
 		
 		System.out.println("***** ------ GAMES ------ *****");
 		System.out.println("");						
@@ -94,6 +166,8 @@ public class GameView {
 		System.out.println("O recorde minimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)"  );
 		
 		
+		
+		
 	}
 	
 	private void automaticTest() {		
@@ -114,7 +188,9 @@ public class GameView {
 			gamesController.addGame(gameDTO);		
 		}
 		
-		System.out.println("          -------------- JOGOS CADASTRADOS --------      ");
+	consoleCreate();
+		
+		/*System.out.println("          -------------- JOGOS CADASTRADOS --------      ");
 		System.out.println("");
 		System.out.println(" GAME     PONTOS     MAX_POINT_SEASON     MIX_POINT_SEASON     IS_MAX_RECORD_BREAK     IS_MIN_RECORD_BREAK");
 		List<GameDTO> gameDTOs = gamesController.findAll();
@@ -131,7 +207,7 @@ public class GameView {
 		System.out.println(" "  );
 		System.out.println("O recorde máximo foi quebrado por "+gamesController.countMaxBreakPointSeason()+" vez(es)"  );
 		System.out.println(" "  );
-		System.out.println("O recorde minimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)"  );
+		System.out.println("O recorde minimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)"  );*/
 		
 		openFrame();	
 	}
