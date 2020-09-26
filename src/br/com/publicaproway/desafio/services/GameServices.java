@@ -15,7 +15,7 @@ public class GameServices {
 
 	public GameServices() {}
 
-	public void addGame(GameDTO gameDTO) {
+	public String addGame(GameDTO gameDTO) {
 		
 		this.game = new Game();
 		this.game.setId(getNewId());
@@ -26,7 +26,7 @@ public class GameServices {
 		this.game.setMinPointSeason(minPointSeason(gameDTO.getPoints()));
 		this.game.setMinBreakPointSeason(minBreakPointSeason);
 		
-		db.save(game);				
+		return db.save(game);				
 	}
 	
 	public List<GameDTO> findAll() {

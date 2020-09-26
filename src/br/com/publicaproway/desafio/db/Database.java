@@ -9,13 +9,14 @@ public class Database {
 
 	List<Game> games = new ArrayList<>();
 	
-	
+
 	public Database() {
 		
 	}
 	
-	public void save(Game game){
+	public String save(Game game){
 		games.add(game);
+		return "Salvo com sucesso";
 	}
 	
 	public List<Game> findAll(){
