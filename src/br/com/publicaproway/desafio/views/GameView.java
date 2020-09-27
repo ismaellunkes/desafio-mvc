@@ -31,6 +31,14 @@ public class GameView {
 	private Integer trialVersionRec=9;
 	private List<String> TestData = new ArrayList<String>();	
 	
+	/**
+	 * Contains the program initialization menu
+	 * A - Automatic test, with defined data;
+	 * C - Testing with data insertion via console
+	 * G - Test with data insertion via the swing library screen
+	 * 
+	 * Any other key ends this menu
+	 */
 	public GameView() {
 		
 		System.out.println(">>>>> CHOOSE AN OPTION: \n (A)UTOMATIC Test  \n (C)ONSOLE Test \n (G)RAFIC Test");
@@ -57,7 +65,15 @@ public class GameView {
 		}							
 	}
 	
-
+	/**
+	 * Contains the test via the console
+	 * Each iteration asks for a new insertion of points
+	 * R - Displays report via registered games console
+	 * X- Displays the registered games report and ends the iteration
+	 * 
+	 *  Any other key starts a new registration and requests a score
+	 *
+	 */
 	private void consoleTest() {
 
 		System.out.println("***** ------ CADASTRO DE GAMES ------ *****");
@@ -80,6 +96,12 @@ public class GameView {
 		}									
 	}
 	
+	/**
+	 * Contains a List of scores for automatic test
+	 * 
+	 * Displays the registered games report and ends the iteration
+	 * 
+	 */	
 	private void automaticTest() {		
 		
 		TestData.add("12");		
@@ -103,7 +125,9 @@ public class GameView {
 		
 	}
 	
-	
+	/**
+	 * Contain a swing test
+	 */
 	
 	private void swingTest() {
 														
@@ -112,7 +136,7 @@ public class GameView {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setTitle("My list games and records break");
-		frame.setAlwaysOnTop(true);
+		//frame.setAlwaysOnTop(true);
 
 		JLabel jLabelGame = new JLabel("JOGO:");		
 		jLabelGame.setBounds(new Rectangle(150, 160, 60, 80));
@@ -161,10 +185,12 @@ public class GameView {
 						jTextFieldPoints.setText("");
 						
 						}catch (NumberFormatException e1) {
-							JOptionPane.showMessageDialog(null, "Este valor deve ser númérico!", "Swing Message", JOptionPane.ERROR_MESSAGE);					
+							JOptionPane.showMessageDialog(null, "Este valor deve ser numérico!", "Swing Message", JOptionPane.ERROR_MESSAGE);					
+						}catch (Exception e2) {
+							JOptionPane.showMessageDialog(null, "Erro: "+e2, "Swing Message", JOptionPane.ERROR_MESSAGE);
 						}
 				}else {
-					JOptionPane.showMessageDialog(null, "Lines number exced your trial license", "Swing message", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Records number exceeded your trial license", "Swing message", JOptionPane.INFORMATION_MESSAGE);
 				}								
 			}			
 		});

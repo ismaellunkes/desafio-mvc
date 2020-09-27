@@ -6,7 +6,13 @@ import java.util.List;
 import br.com.publicaproway.desafio.db.Database;
 import br.com.publicaproway.desafio.dto.GameDTO;
 import br.com.publicaproway.desafio.models.Game;
-
+/**
+ * 
+ * @author ismael
+ *
+ * Contains business logic
+ * 
+ */
 public class GameServices {
 	
 	Game game;
@@ -103,6 +109,10 @@ public class GameServices {
 		return db.getNewId();
 	}
 	
+	/**
+	 * 
+	 * @return new name from the list size in the database in memory
+	 */
 	private String getGameName() {
 		List<Game> games = db.findAll();
 		Integer gameNumber = games.size() + 1;

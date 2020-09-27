@@ -12,18 +12,34 @@ public class GamesController {
 		gameServices = new GameServices();
 	}
 	
+	/**
+	 * @param gameDTO
+	 * @return database message 
+	 */
 	public String addGame(GameDTO gameDTO) {
 		return gameServices.addGame(gameDTO);				
 	}
 	
+	/**
+	 * 
+	 * @return List of GameDTO
+	 */
 	public List<GameDTO> findAll() {
 		return gameServices.findAll();				
 	}
 	
+	/**
+	 * 
+	 * @return boolean countMaxBreakPointSeason
+	 */
 	public Integer countMaxBreakPointSeason() {
 		return gameServices.countMaxBreakPointSeason();				
 	}
 	
+	/**
+	 * 
+	 * @return Integer countMinBreakPointSeason
+	 */
 	public Integer countMinBreakPointSeason() {
 		return gameServices.countMinBreakPointSeason();				
 	}
