@@ -17,7 +17,7 @@ Crie um programa na sua linguagem de programação preferida para facilitar o ac
     • Documentação do código;
 
 # Apresentação da Solução
-Para executar o programa desenvolvido para o problema proposta, após fazer a compilação deverá escolher entre uma das opções do menu, conforme a imagem a seguir:
+Para executar o programa desenvolvido para o problema proposto, após fazer a compilação deverá escolher entre uma das opções do menu, conforme a imagem a seguir:
  
 ![desafio-mvc](src/resources/img/img002.PNG)
  
