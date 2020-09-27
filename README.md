@@ -15,3 +15,13 @@ Crie um programa na sua linguagem de programação preferida para facilitar o ac
     • Testes unitários;
     • Controle de versão Git;
     • Documentação do código;
+
+# Apresentação da Solução
+Para executar o programa desenvolvido para o problema proposta, após fazer a compilação deverá escolher entre uma das opções do menu, conforme a imagem a seguir:
+![desafio-mvc](src/resources/img/img002.png)
+
+O teste automatizado pode ter seus dados alterados no seguinte método:
+![desafio-mvc](src/resources/img/img003.png)
+
+A opção por interface gráfica da biblioteca swing possibilita a inserção de até 10 itens:
+![desafio-mvc](src/resources/img/img004.png)
