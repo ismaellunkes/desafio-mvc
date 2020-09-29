@@ -27,9 +27,10 @@ public class GameView {
 	Scanner tec = new Scanner(System.in);
 	private GameDTO gameDTO;
 	private GamesController gamesController = new GamesController();
-	private String key="";
+	private String key="";		
+			
+	/*Problemas para instanciar uma nova tabelmodel em tempo de execução :-(  */
 	private Integer trialVersionRec=9;
-	private List<String> TestData = new ArrayList<String>();	
 	
 	/**
 	 * Contains the program initialization menu
@@ -104,6 +105,8 @@ public class GameView {
 	 */	
 	private void automaticTest() {		
 		
+		List<String> TestData = new ArrayList<String>();
+		
 		TestData.add("12");		
 		TestData.add("23");		
 		TestData.add("86");		
@@ -132,7 +135,7 @@ public class GameView {
 	private void swingTest() {
 														
 		JFrame frame = new JFrame();		
-		frame.setSize(600, 400);		
+		frame.setSize(600,600);		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setTitle("My list games and records break");
@@ -166,9 +169,17 @@ public class GameView {
 	    jPanel.add(barraRolagem);
 	    tabela.setBounds(jLabelPoints.getX(), jLabelPoints.getY()+50, 60, 60);
 	    
+	    JLabel jLabelMaxRecBreak = new JLabel();
+	    JLabel jLabelMinRecBreak = new JLabel();
+	    
+	    jLabelMaxRecBreak.setBounds(jTextFieldGame.getX(), jTextFieldGame.getY()+60, 300, 60);
+	    jLabelMinRecBreak.setBounds(jLabelMaxRecBreak.getX(), jLabelMaxRecBreak.getY()+20, 300, 60);
+	    jLabelMaxRecBreak.setVisible(false);
+	    jLabelMinRecBreak.setVisible(false);
+	    
 	    JButton buttonAdd = new JButton();
 		buttonAdd.setText("SAVE");
-		buttonAdd.setBounds(jTextFieldGame.getX()+(jTextFieldPoints.getX()-jTextFieldGame.getX())/2, jTextFieldGame.getY()+100, 65, 40);
+		buttonAdd.setBounds(jTextFieldGame.getX()+(jTextFieldPoints.getX()-jTextFieldGame.getX())/2, jLabelMinRecBreak.getY()+60, 65, 40);
 		buttonAdd.addActionListener( new ActionListener() {
 			
 			@Override
@@ -182,6 +193,10 @@ public class GameView {
 						JOptionPane.showMessageDialog(null, saveOk, "Database message", JOptionPane.INFORMATION_MESSAGE);
 						tabela.setModel(reBuildingTableModel(gamesController.findAll(), tabela.getModel()));						
 						jTextFieldGame.setText(Integer.toString(gamesController.findAll().size()+1));
+						jLabelMaxRecBreak.setVisible(true);
+						jLabelMinRecBreak.setVisible(true);
+						jLabelMaxRecBreak.setText("O recorde máximo foi quebrado por "+gamesController.countMaxBreakPointSeason()+" vez(es)");
+						jLabelMinRecBreak.setText("O recorde mínimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)");
 						jTextFieldPoints.setText("");
 						
 						}catch (NumberFormatException e1) {
@@ -194,16 +209,20 @@ public class GameView {
 				}								
 			}			
 		});
-		
+				
 		frame.add(jLabelGame);
 		frame.add(jTextFieldGame);
 		frame.add(jLabelPoints);
 		frame.add(jTextFieldPoints);
+		frame.add(jLabelMaxRecBreak);
+		frame.add(jLabelMinRecBreak);
 		frame.add(buttonAdd);
 		frame.add(jPanel);	
 		frame.setVisible(true);
 	}
-		
+	/**
+	 * Cria um relatório para ser usado via console	
+	 */
 	private void consoleCreateRel() {
 			
 			List<String> tableHead = new ArrayList<String>();

@@ -35,6 +35,10 @@ public class GameServices {
 		return db.save(game);				
 	}
 	
+	/**
+	 * Retorna uma lista com todos os games no banco de dados de memória, carregando uma lista de GameDtos
+	 * @return gamesDtos
+	 */
 	public List<GameDTO> findAll() {
 		
 		List<Game> games = db.findAll();
@@ -52,7 +56,10 @@ public class GameServices {
 		}		
 		return gamesDtos;	
 	}
-	
+	/**
+	 * Quantidade de vezes que teve quebra de recorde máximo.
+	 * @return count com quantidade de vezes que foi true para isMaxBreakPointSeason()
+	 */
 	public Integer countMaxBreakPointSeason() {
 		List<Game> games = db.findAll();
 		Integer count = 0;
@@ -66,7 +73,10 @@ public class GameServices {
 		
 		return count;
 	}
-	
+	/**
+	 * Quantidade de vezes que teve quebra de recorde mínimo.
+	 * @return count com quantidade de vezes que foi true para isMinBreakPointSeason()
+	 */
 	public Integer countMinBreakPointSeason() {
 		List<Game> games = db.findAll();
 		Integer count = 0;
@@ -81,6 +91,11 @@ public class GameServices {
 		return count;
 	}
 	
+	/**
+	 * 
+	 * @param points recebe os pontos do jogo que está sendo cadastrado
+	 * @return maxPoint atualiazado, em comparação com a pontuação do ultimo jogo
+	 */
 	private Integer maxPointSeason (Integer points) {		
 		List<Game> games = db.findAll();
 		Integer maxPoint = points;
@@ -93,6 +108,11 @@ public class GameServices {
 		return maxPoint;
 	}
 	
+	/**
+	 * 
+	 * @param points recebe os pontos do jogo que está sendo cadastrado
+	 * @return minPoint atualiazado, em comparação com a pontuação do ultimo jogo
+	 */
 	private Integer minPointSeason (Integer points) {		
 		List<Game> games = db.findAll();
 		Integer minPoint = points;
@@ -104,7 +124,10 @@ public class GameServices {
 		
 		return minPoint;
 	}
-		
+	/**
+	 * 	
+	 * @return getNewId() com o valor no novo ID baseado na quantidade de games cadastrados no banco de dados
+	 */
 	private Integer getNewId() {
 		return db.getNewId();
 	}

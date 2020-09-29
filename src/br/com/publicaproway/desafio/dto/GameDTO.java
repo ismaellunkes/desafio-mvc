@@ -9,9 +9,7 @@ public class GameDTO {
 	private boolean maxBreakPointSeason;
 	private boolean minBreakPointSeason;
 
-	public GameDTO() {
-		// TODO Auto-generated constructor stub
-	}
+	public GameDTO() { }
 
 	public GameDTO(String game, Integer points, Integer maxPointSeason, Integer minPointSeason,
 			boolean maxBreakPointSeason, boolean minBreakPointSeason) {
