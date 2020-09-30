@@ -1,5 +1,8 @@
 package br.com.publicaproway.desafio.views;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -7,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import br.com.publicaproway.desafio.controllers.GamesController;
@@ -28,9 +33,6 @@ public class GameView {
 	private GameDTO gameDTO;
 	private GamesController gamesController = new GamesController();
 	private String key="";		
-			
-	/*Problemas para instanciar uma nova tabelmodel em tempo de execução :-(  */
-	private Integer trialVersionRec=9;
 	
 	/**
 	 * Contains the program initialization menu
@@ -139,10 +141,25 @@ public class GameView {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setTitle("My list games and records break");
-		//frame.setAlwaysOnTop(true);
+		
+		JPanel jPanelContainer = new JPanel();
+		jPanelContainer.setSize(frame.getWidth(), frame.getHeight());
+		jPanelContainer.setLayout(new GridLayout(2, 1));
+		
+		JPanel jPanelTable = new JPanel();
+		jPanelTable.setPreferredSize(new Dimension(frame.getWidth(), 200));
+		jPanelTable.setLayout(new BorderLayout());
+									
+		JPanel jPanelControles = new JPanel();
+		jPanelTable.setMinimumSize(new Dimension(frame.getWidth(), frame.getHeight()/4));
+		jPanelControles.setBackground(new Color(245, 245, 245));
+		jPanelControles.setLayout(null);
+		
+		jPanelContainer.add(jPanelTable);
+		jPanelContainer.add(jPanelControles);
 
 		JLabel jLabelGame = new JLabel("JOGO:");		
-		jLabelGame.setBounds(new Rectangle(150, 160, 60, 80));
+		jLabelGame.setBounds(new Rectangle(150, 10, 60, 80));
 		jLabelGame.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JTextField jTextFieldGame = new JTextField();
@@ -156,19 +173,17 @@ public class GameView {
 				
 		JTextField jTextFieldPoints = new JTextField();
 		jTextFieldPoints.setBounds(jLabelPoints.getX(), jLabelPoints.getY()+50, 60, 60);
-		
-		JPanel jPanel = new JPanel();
 					
 		String[] colunas = {"GAME", "POINTS", "MAX_POINT_SEASON", "MIN_POINT_SEASON", "IS_MAX_RECORD_BREAK", "IS_MIN_RECORD_BREAK"};
-		String[][] dados = {{"", "", "", "", "", ""}, {"", "", "", "", "", ""}, {"", "", "", "", "", ""}, {"", "", "", "", "", ""}, {"", "", "", "", "", ""},
-							{"", "", "", "", "", ""}, {"", "", "", "", "", ""}, {"", "", "", "", "", ""}, {"", "", "", "", "", ""}, {"", "", "", "", "", ""}};
-		JTable tabela = new JTable(dados, colunas);
-		JScrollPane barraRolagem = new JScrollPane(tabela);		
-		jPanel.setLayout(new GridLayout(1, 1));
-	    barraRolagem = new JScrollPane(tabela);
-	    jPanel.add(barraRolagem);
-	    tabela.setBounds(jLabelPoints.getX(), jLabelPoints.getY()+50, 60, 60);
-	    
+		String[][] dados = {{"", "", "", "", "", ""}};
+				
+		DefaultTableModel defaultTableModel = new DefaultTableModel(dados, colunas);
+		JTable tabela = new JTable();					
+		tabela.setBackground(Color.WHITE);
+		tabela.setFillsViewportHeight(true);
+		JScrollPane barraRolagem = new JScrollPane(tabela);	
+		jPanelTable.add(barraRolagem);
+		
 	    JLabel jLabelMaxRecBreak = new JLabel();
 	    JLabel jLabelMinRecBreak = new JLabel();
 	    
@@ -183,41 +198,53 @@ public class GameView {
 		buttonAdd.addActionListener( new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!(gamesController.findAll().size()>trialVersionRec)) {				
-					try {						
-						
-						gameDTO = new GameDTO();
-						gameDTO.setPoints(Integer.parseInt(jTextFieldPoints.getText()));
-						String saveOk = gamesController.addGame(gameDTO);										
-						JOptionPane.showMessageDialog(null, saveOk, "Database message", JOptionPane.INFORMATION_MESSAGE);
-						tabela.setModel(reBuildingTableModel(gamesController.findAll(), tabela.getModel()));						
-						jTextFieldGame.setText(Integer.toString(gamesController.findAll().size()+1));
-						jLabelMaxRecBreak.setVisible(true);
-						jLabelMinRecBreak.setVisible(true);
-						jLabelMaxRecBreak.setText("O recorde máximo foi quebrado por "+gamesController.countMaxBreakPointSeason()+" vez(es)");
-						jLabelMinRecBreak.setText("O recorde mínimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)");
-						jTextFieldPoints.setText("");
-						
-						}catch (NumberFormatException e1) {
-							JOptionPane.showMessageDialog(null, "Este valor deve ser numérico!", "Swing Message", JOptionPane.ERROR_MESSAGE);					
-						}catch (Exception e2) {
-							JOptionPane.showMessageDialog(null, "Erro: "+e2, "Swing Message", JOptionPane.ERROR_MESSAGE);
-						}
-				}else {
-					JOptionPane.showMessageDialog(null, "Records number exceeded your trial license", "Swing message", JOptionPane.INFORMATION_MESSAGE);
-				}								
+			public void actionPerformed(ActionEvent e) {			
+				try {						
+
+					gameDTO = new GameDTO();
+					gameDTO.setPoints(Integer.parseInt(jTextFieldPoints.getText()));
+					String saveOk = gamesController.addGame(gameDTO);										
+					JOptionPane.showMessageDialog(null, saveOk, "Database message", JOptionPane.INFORMATION_MESSAGE);
+
+					tabela.setModel(defaultTableModel);;
+					defaultTableModel.setNumRows(0);
+
+					for (GameDTO gameDTO2 : gamesController.findAll()) {
+
+						defaultTableModel.addRow(new Object[] {
+								gameDTO2.getGame().toString(),
+								gameDTO2.getPoints().toString(),
+								gameDTO2.getMaxPointSeason().toString(),
+								gameDTO2.getMinPointSeason().toString(),
+								gameDTO2.isMaxBreakPointSeason()==true?"YES":"NO",
+										gameDTO2.isMinBreakPointSeason()==true?"YES":"NO"
+						});
+
+					}
+
+					jTextFieldGame.setText(Integer.toString(gamesController.findAll().size()+1));
+					jLabelMaxRecBreak.setVisible(true);
+					jLabelMinRecBreak.setVisible(true);
+					jLabelMaxRecBreak.setText("O recorde máximo foi quebrado por "+gamesController.countMaxBreakPointSeason()+" vez(es)");
+					jLabelMinRecBreak.setText("O recorde mínimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)");
+					jTextFieldPoints.setText("");
+
+				}catch (NumberFormatException e1) {
+					JOptionPane.showMessageDialog(null, "Este valor deve ser numérico!", "Swing Message", JOptionPane.ERROR_MESSAGE);					
+				}catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Erro: "+e2, "Swing Message", JOptionPane.ERROR_MESSAGE);
+				}							
 			}			
 		});
 				
-		frame.add(jLabelGame);
-		frame.add(jTextFieldGame);
-		frame.add(jLabelPoints);
-		frame.add(jTextFieldPoints);
-		frame.add(jLabelMaxRecBreak);
-		frame.add(jLabelMinRecBreak);
-		frame.add(buttonAdd);
-		frame.add(jPanel);	
+		jPanelControles.add(jLabelGame);
+		jPanelControles.add(jTextFieldGame);
+		jPanelControles.add(jLabelPoints);
+		jPanelControles.add(jTextFieldPoints);
+		jPanelControles.add(jLabelMaxRecBreak);
+		jPanelControles.add(jLabelMinRecBreak);
+		jPanelControles.add(buttonAdd);						
+		frame.add(jPanelContainer);
 		frame.setVisible(true);
 	}
 	/**
@@ -297,21 +324,5 @@ public class GameView {
 			System.out.println(" "  );
 			System.out.println("O recorde minimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)"  );
 		}
-	
-	private TableModel reBuildingTableModel(List<GameDTO> gameDTOs, TableModel tableModel) {
-		
-		int l=0;		
-		
-		for (GameDTO gameDTO : gameDTOs) {			
-			tableModel.setValueAt(gameDTO.getGame(), l, 0);			
-			tableModel.setValueAt(gameDTO.getPoints().toString(), l, 1);
-			tableModel.setValueAt(gameDTO.getMaxPointSeason().toString(), l, 2);
-			tableModel.setValueAt(gameDTO.getMinPointSeason().toString(), l, 3);
-			tableModel.setValueAt(gameDTO.isMaxBreakPointSeason()?"YES":"NO", l, 4);
-			tableModel.setValueAt(gameDTO.isMinBreakPointSeason()?"YES":"NO", l, 5);	
-			l++;
-		}				
-		return tableModel;		
-	}	
 		
 }

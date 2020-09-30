@@ -80,7 +80,7 @@ public class GameServices {
 	public Integer countMinBreakPointSeason() {
 		List<Game> games = db.findAll();
 		Integer count = 0;
-						
+		
 		for (Game game : games) {			
 			
 			if (game.isMinBreakPointSeason()) {
