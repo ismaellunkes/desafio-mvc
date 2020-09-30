@@ -13,6 +13,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,7 +33,8 @@ public class GameView {
 	Scanner tec = new Scanner(System.in);
 	private GameDTO gameDTO;
 	private GamesController gamesController = new GamesController();
-	private String key="";		
+	private String key="";	
+	private boolean modeSearch=false;
 	
 	/**
 	 * Contains the program initialization menu
@@ -165,7 +167,7 @@ public class GameView {
 		JTextField jTextFieldGame = new JTextField();
 		jTextFieldGame.setBounds(jLabelGame.getX(), jLabelGame.getY()+50, 60, 60);
 		jTextFieldGame.setText(Integer.toString(gamesController.findAll().size()+1));
-		jTextFieldGame.setEnabled(false);
+		jTextFieldGame.setEditable(false);
 		
 		JLabel jLabelPoints = new JLabel("PONTOS:");		
 		jLabelPoints.setBounds(new Rectangle(jLabelGame.getX()+200, jLabelGame.getY(), 60, 80));
@@ -192,50 +194,104 @@ public class GameView {
 	    jLabelMaxRecBreak.setVisible(false);
 	    jLabelMinRecBreak.setVisible(false);
 	    
-	    JButton buttonAdd = new JButton();
-		buttonAdd.setText("SAVE");
-		buttonAdd.setBounds(jTextFieldGame.getX()+(jTextFieldPoints.getX()-jTextFieldGame.getX())/2, jLabelMinRecBreak.getY()+60, 65, 40);
+	    
+	    JButton buttonAdd = new JButton("SAVE");		
+		buttonAdd.setBounds(jTextFieldGame.getX()+(jTextFieldPoints.getX()-jTextFieldGame.getX())/2, jLabelMinRecBreak.getY()+60, 100, 40);
 		buttonAdd.addActionListener( new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {			
-				try {						
-
-					gameDTO = new GameDTO();
-					gameDTO.setPoints(Integer.parseInt(jTextFieldPoints.getText()));
-					String saveOk = gamesController.addGame(gameDTO);										
-					JOptionPane.showMessageDialog(null, saveOk, "Database message", JOptionPane.INFORMATION_MESSAGE);
-
-					tabela.setModel(defaultTableModel);;
-					defaultTableModel.setNumRows(0);
-
-					for (GameDTO gameDTO2 : gamesController.findAll()) {
-
-						defaultTableModel.addRow(new Object[] {
-								gameDTO2.getGame().toString(),
-								gameDTO2.getPoints().toString(),
-								gameDTO2.getMaxPointSeason().toString(),
-								gameDTO2.getMinPointSeason().toString(),
-								gameDTO2.isMaxBreakPointSeason()==true?"YES":"NO",
-										gameDTO2.isMinBreakPointSeason()==true?"YES":"NO"
-						});
-
+			public void actionPerformed(ActionEvent e) {
+				
+				if (modeSearch) {
+					
+					String game = "JOGO "+jTextFieldGame.getText().trim();
+					boolean searchOk=false;
+										
+					for (int i = 0; i < tabela.getRowCount(); i++) {
+					
+						if (tabela.getValueAt(i, 0).equals(game)) {
+						
+							tabela.setRowSelectionInterval(i, i);
+							searchOk=true;
+							break;
+								
+							}				
+						
 					}
-
-					jTextFieldGame.setText(Integer.toString(gamesController.findAll().size()+1));
-					jLabelMaxRecBreak.setVisible(true);
-					jLabelMinRecBreak.setVisible(true);
-					jLabelMaxRecBreak.setText("O recorde máximo foi quebrado por "+gamesController.countMaxBreakPointSeason()+" vez(es)");
-					jLabelMinRecBreak.setText("O recorde mínimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)");
-					jTextFieldPoints.setText("");
-
-				}catch (NumberFormatException e1) {
-					JOptionPane.showMessageDialog(null, "Este valor deve ser numérico!", "Swing Message", JOptionPane.ERROR_MESSAGE);					
-				}catch (Exception e2) {
-					JOptionPane.showMessageDialog(null, "Erro: "+e2, "Swing Message", JOptionPane.ERROR_MESSAGE);
-				}							
-			}			
+					
+					if (!searchOk) {
+						tabela.clearSelection();
+						JOptionPane.showMessageDialog(null, "Game não encontrado.", "Database message", JOptionPane.INFORMATION_MESSAGE);
+					}
+															
+				}else {
+					try {																
+						gameDTO = new GameDTO();
+						gameDTO.setPoints(Integer.parseInt(jTextFieldPoints.getText()));
+						String saveOk = gamesController.addGame(gameDTO);										
+						JOptionPane.showMessageDialog(null, saveOk, "Database message", JOptionPane.INFORMATION_MESSAGE);
+	
+						tabela.setModel(defaultTableModel);;
+						defaultTableModel.setNumRows(0);
+	
+						for (GameDTO gameDTO2 : gamesController.findAll()) {
+	
+							defaultTableModel.addRow(new Object[] {
+									gameDTO2.getGame().toString(),
+									gameDTO2.getPoints().toString(),
+									gameDTO2.getMaxPointSeason().toString(),
+									gameDTO2.getMinPointSeason().toString(),
+									gameDTO2.isMaxBreakPointSeason()==true?"YES":"NO",
+											gameDTO2.isMinBreakPointSeason()==true?"YES":"NO"
+							});
+	
+						}
+	
+						jTextFieldGame.setText(Integer.toString(gamesController.findAll().size()+1));
+						jLabelMaxRecBreak.setVisible(true);
+						jLabelMinRecBreak.setVisible(true);
+						jLabelMaxRecBreak.setText("O recorde máximo foi quebrado por "+gamesController.countMaxBreakPointSeason()+" vez(es)");
+						jLabelMinRecBreak.setText("O recorde mínimo foi quebrado por "+gamesController.countMinBreakPointSeason()+" vez(es)");
+						jTextFieldPoints.setText("");
+	
+					}catch (NumberFormatException e1) {
+						JOptionPane.showMessageDialog(null, "Este valor deve ser numérico!", "Swing Message", JOptionPane.ERROR_MESSAGE);					
+					}catch (Exception e2) {
+						JOptionPane.showMessageDialog(null, "Erro: "+e2, "Swing Message", JOptionPane.ERROR_MESSAGE);
+					}	
+				}
+			}
 		});
+		
+		
+		
+		JCheckBox jChbxSearchMode = new  JCheckBox("Search Mode.");
+		jChbxSearchMode.setBounds(buttonAdd.getX()+100, buttonAdd.getY(), 120, 15);
+		jChbxSearchMode.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (jChbxSearchMode.isSelected()){
+					buttonAdd.setText("SEARCH");
+					jTextFieldPoints.setVisible(false);
+					jLabelPoints.setVisible(false);
+					jTextFieldGame.setEditable(true);
+					jLabelGame.setLocation(jLabelGame.getX()+120, jLabelGame.getY());
+					jTextFieldGame.setLocation(jTextFieldGame.getX()+120, jTextFieldGame.getY());
+					modeSearch=true;
+					
+				}else {
+					buttonAdd.setText("SAVE");
+					jTextFieldPoints.setVisible(true);
+					jLabelPoints.setVisible(true);
+					jTextFieldGame.setEditable(false);
+					jLabelGame.setLocation(jLabelGame.getX()-120, jLabelGame.getY());
+					jTextFieldGame.setLocation(jTextFieldGame.getX()-120, jTextFieldGame.getY());
+					modeSearch=false;
+				}				
+			}
+		});
+		
 				
 		jPanelControles.add(jLabelGame);
 		jPanelControles.add(jTextFieldGame);
@@ -243,7 +299,8 @@ public class GameView {
 		jPanelControles.add(jTextFieldPoints);
 		jPanelControles.add(jLabelMaxRecBreak);
 		jPanelControles.add(jLabelMinRecBreak);
-		jPanelControles.add(buttonAdd);						
+		jPanelControles.add(buttonAdd);				
+		jPanelControles.add(jChbxSearchMode);	
 		frame.add(jPanelContainer);
 		frame.setVisible(true);
 	}
