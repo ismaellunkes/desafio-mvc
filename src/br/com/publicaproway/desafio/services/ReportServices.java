@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
@@ -60,17 +62,30 @@ public class ReportServices {
 		
 		FileWriter fw = new FileWriter(file, true);
 		BufferedWriter bw = new BufferedWriter(fw);
+		
 		bw.write("<center>");
-		bw.write("<table border=\"1\">");
+		bw.write("<table border=1 cellpadding=20>");
+		
+		bw.write("<thead>");
+		bw.write("<tr>");
+		for (int j = 0; j < defaultTableModel.getColumnCount(); j++) {			
+			bw.write("<th>"+defaultTableModel.getColumnName(j)+"</th>");				
+		}
+		bw.write("</tr>");	
+		bw.write("</thead>");
+		
+		bw.write("<tbody>");
 		for (int i = 0; i < defaultTableModel.getRowCount(); i++) {
 			bw.write("<tr>");			
 			for (int j = 0; j < defaultTableModel.getColumnCount(); j++) {
-				bw.write("<td>");
+				bw.write("<td padding=10em>");
 				bw.write(defaultTableModel.getValueAt(i, j).toString());
 				bw.write("</td>");				
 			}
 			bw.write("</tr>");
 		}		
+		bw.write("</tbody>");
+		
 		bw.write("</table>");
 		bw.write("</center>");
         bw.newLine();
@@ -100,7 +115,7 @@ public class ReportServices {
 		FileWriter fw = new FileWriter(file, true);
 		BufferedWriter bw = new BufferedWriter(fw);
 		
-		bw.write("<center><h5> Relatório de jogos - "+Instant.now()+"</h5></center>");				
+		bw.write("<center><h5> Relatório de jogos - "+TimeServices.toFormatDDMMYYYHHMMSS(LocalDate.now(), LocalTime.now())+"</h5></center>");				
 		bw.write("</body>");
 		bw.write("</html>");
         bw.newLine();

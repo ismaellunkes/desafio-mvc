@@ -3,6 +3,7 @@ package br.com.publicaproway.desafio.views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -144,7 +145,8 @@ public class GameView {
 		frame.setSize(600,600);		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
-		frame.setTitle("My list games and records break");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("My list games and records break");		
 		
 		JPanel jPanelContainer = new JPanel();
 		jPanelContainer.setSize(frame.getWidth(), frame.getHeight());
@@ -170,6 +172,7 @@ public class GameView {
 		jTextFieldGame.setBounds(jLabelGame.getX(), jLabelGame.getY()+50, 60, 60);
 		jTextFieldGame.setText(Integer.toString(gamesController.findAll().size()+1));
 		jTextFieldGame.setEditable(false);
+		jTextFieldGame.setFont(new Font("Arial", Font.BOLD, 25));		
 		
 		JLabel jLabelPoints = new JLabel("PONTOS:");		
 		jLabelPoints.setBounds(new Rectangle(jLabelGame.getX()+200, jLabelGame.getY(), 60, 80));
@@ -177,6 +180,7 @@ public class GameView {
 				
 		JTextField jTextFieldPoints = new JTextField();
 		jTextFieldPoints.setBounds(jLabelPoints.getX(), jLabelPoints.getY()+50, 60, 60);
+		jTextFieldPoints.setFont(new Font("Arial", Font.BOLD, 25));
 					
 		String[] colunas = {"GAME", "POINTS", "MAX_POINT_SEASON", "MIN_POINT_SEASON", "IS_MAX_RECORD_BREAK", "IS_MIN_RECORD_BREAK"};
 		String[][] dados = {{"", "", "", "", "", ""}};
