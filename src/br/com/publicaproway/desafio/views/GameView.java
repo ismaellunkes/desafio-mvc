@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,6 +28,7 @@ import javax.swing.table.TableModel;
 
 import br.com.publicaproway.desafio.controllers.GamesController;
 import br.com.publicaproway.desafio.dto.GameDTO;
+import br.com.publicaproway.desafio.services.ReportServices;
 
 public class GameView {
 
@@ -292,6 +294,34 @@ public class GameView {
 			}
 		});
 		
+		 JButton buttonPrintReport = new JButton("Print");		
+		 buttonPrintReport.setBounds(tabela.getX(), tabela.getY(), 65, 15);
+		 buttonPrintReport.addActionListener( new ActionListener() {
+			 
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					try {
+						
+						ReportServices reportServices = new ReportServices();
+						reportServices.reportCreateHTML();
+						reportServices.addHeader("Relatório de JOGOS");
+						reportServices.addTitle("Relatório de JOGOS");
+						reportServices.addTable((DefaultTableModel)tabela.getModel());
+						reportServices.addFooter();
+						reportServices.openReport();
+						
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+					
+					
+				}
+				
+			});
 				
 		jPanelControles.add(jLabelGame);
 		jPanelControles.add(jTextFieldGame);
@@ -300,7 +330,8 @@ public class GameView {
 		jPanelControles.add(jLabelMaxRecBreak);
 		jPanelControles.add(jLabelMinRecBreak);
 		jPanelControles.add(buttonAdd);				
-		jPanelControles.add(jChbxSearchMode);	
+		jPanelControles.add(jChbxSearchMode);
+		jPanelControles.add(buttonPrintReport);
 		frame.add(jPanelContainer);
 		frame.setVisible(true);
 	}
