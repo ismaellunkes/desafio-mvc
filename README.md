@@ -29,4 +29,4 @@ O teste automatizado pode ter seus dados alterados no seguinte método:
 A opção por interface gráfica da biblioteca swing possibilita a inserção de itens:
 ![desafio-mvc](src/resources/img/img004.PNG)
 
-Veja o programa funciondo neste vídeo: https://youtu.be/hApNDbjsAEo
+Veja um preview desta pequena solução neste vídeo: https://youtu.be/hApNDbjsAEo
